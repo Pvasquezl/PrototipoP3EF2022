@@ -97,8 +97,9 @@ public class daoClientes {
             conn = clsConexion.getConnection();
             System.out.println("ejecutando query: " + SQL_UPDATE);
             stmt = conn.prepareStatement(SQL_UPDATE);
-            stmt.setString(1, cliente.getsNombre());
-            stmt.setString(2, cliente.getsNit());
+            stmt.setInt(1, cliente.getiId_cliente());
+            stmt.setString(2, cliente.getsNombre());
+            stmt.setString(3, cliente.getsNit());
 
             rows = stmt.executeUpdate();
             System.out.println("Registros actualizado:" + rows);

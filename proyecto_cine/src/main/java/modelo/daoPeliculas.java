@@ -5,7 +5,7 @@
  */
 package modelo;
 
-import controlador.clsAsiento;
+import controlador.clsPeliculas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,40 +18,46 @@ import modelo.clsConexion;
  *
  * @author visitante
  */
-public class daoAsiento {
+public class daoPeliculas {
 
-    private static final String SQL_SELECT = "SELECT id_asiento, id_sala, fila, columna FROM tbl_asientos";
-    private static final String SQL_INSERT = "INSERT INTO tbl_asientos(id_sala, fila, columna) VALUES(?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE tbl_asientos SET id_sala=?, fila=? AND columna=? WHERE id_asiento = ?";
-    private static final String SQL_DELETE = "DELETE FROM tbl_asientos WHERE id_asiento=?";
-    private static final String SQL_QUERY = "SELECT id_asiento, id_sala, fila, columna FROM tbl_asientos WHERE id_asiento = ?";
+    private static final String SQL_SELECT = "SELECT id_pelicula, nombre, clasificacion, genero, subtitulado, idioma, precio FROM tbl_peliculas";
+    private static final String SQL_INSERT = "INSERT INTO tbl_peliculas(nombre, clasificacion, genero, subtitulado, idioma, precio) VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String SQL_UPDATE = "UPDATE tbl_peliculas SET nombre=?, clasificacion=?, genero=?, subtitulado=?, idioma=? AND precio=? WHERE id_pelicula= ?";
+    private static final String SQL_DELETE = "DELETE FROM tbl_peliculas WHERE id_pelicula=?";
+    private static final String SQL_QUERY = "SELECT id_pelicula, nombre, clasificacion, genero, subtitulado, idioma, precio FROM tbl_peliculas WHERE id_pelicula = ?";
 
 
-    public List<clsAsiento> select() {
+    public List<clsPeliculas> select() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        clsAsiento asiento = null;
-        List<clsAsiento> asientos = new ArrayList<clsAsiento>();
+        clsPeliculas cine = null;
+        List<clsPeliculas> cines = new ArrayList<clsPeliculas>();
 
         try {
             conn = clsConexion.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                int iId_asiento = rs.getInt("id_asiento");
-                int iId_sala = rs.getInt("id_sala");
-                int iFila = rs.getInt("fila");
-                int iColumna = rs.getInt("columna");
+                int iId_pelicula = rs.getInt("id_pelicula");
+                String sNombre = rs.getString("nombre");
+                String sClasificacion = rs.getString("clasificacion");
+                String sGenero = rs.getString("genero");
+                String sSubtitulado = rs.getString("subtitulado");
+                String sIdioma = rs.getString("idioma");
+                double dPrecio = rs.getDouble("precio");
 
 
-                asiento = new clsAsiento();
-                asiento.setiId_asiento(iId_asiento);
-                asiento.setiId_sala(iId_sala);
-                asiento.setiFila(iFila);
-                asiento.setiColumna(iColumna);
+                cine = new clsPeliculas();
+                cine.setiId_pelicula(iId_pelicula);
+                cine.setsNombre(sNombre);
+                cine.setsClasificacion(sClasificacion);
+                cine.setsGenero(sGenero);
+                cine.setsSubtitulado(sSubtitulado);
+                cine.setsIdioma(sIdioma);
+                cine.setsPrecio(dPrecio);
                 
-                asientos.add(asiento);
+                cines.add(cine);
             }
 
         } catch (SQLException ex) {
@@ -62,19 +68,22 @@ public class daoAsiento {
             clsConexion.close(conn);
         }
 
-        return asientos;
+        return cines;
     }
 
-    public int insert(clsAsiento asiento) {
+    public int insert(clsPeliculas cine) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
         try {
             conn = clsConexion.getConnection();
             stmt = conn.prepareStatement(SQL_INSERT);
-            stmt.setInt(1, asiento.getiId_sala());
-            stmt.setInt(2, asiento.getiFila());
-            stmt.setInt(3, asiento.getiColumna());
+            stmt.setString(1, cine.getsNombre());
+            stmt.setString(2, cine.getsClasificacion());
+            stmt.setString(3, cine.getsGenero());
+            stmt.setString(4, cine.getsSubtitulado());
+            stmt.setString(5, cine.getsIdioma());
+            stmt.setDouble(6, cine.getsPrecio());
 
             
 
@@ -92,7 +101,7 @@ public class daoAsiento {
         return rows;
     }
 
-    public int update(clsAsiento asiento) {
+    public int update(clsPeliculas cine) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
@@ -101,10 +110,13 @@ public class daoAsiento {
             conn = clsConexion.getConnection();
             System.out.println("ejecutando query: " + SQL_UPDATE);
             stmt = conn.prepareStatement(SQL_UPDATE);
-            stmt.setInt(1, asiento.getiId_asiento());
-            stmt.setInt(2, asiento.getiId_sala());
-            stmt.setInt(3, asiento.getiFila());
-            stmt.setInt(4, asiento.getiColumna());
+            stmt.setInt(1, cine.getiId_pelicula());
+            stmt.setString(2, cine.getsNombre());
+            stmt.setString(3, cine.getsClasificacion());
+            stmt.setString(4, cine.getsGenero());
+            stmt.setString(5, cine.getsSubtitulado());
+            stmt.setString(6, cine.getsIdioma());
+            stmt.setDouble(7, cine.getsPrecio());
 
             rows = stmt.executeUpdate();
             System.out.println("Registros actualizado:" + rows);
@@ -119,7 +131,7 @@ public class daoAsiento {
         return rows;
     }
 
-    public int delete(clsAsiento asiento) {
+    public int delete(clsPeliculas cine) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
@@ -128,7 +140,7 @@ public class daoAsiento {
             conn = clsConexion.getConnection();
             System.out.println("Ejecutando query:" + SQL_DELETE);
             stmt = conn.prepareStatement(SQL_DELETE);
-            stmt.setInt(1, asiento.getiId_asiento());
+            stmt.setInt(1, cine.getiId_pelicula());
             rows = stmt.executeUpdate();
             System.out.println("Registros eliminados:" + rows);
         } catch (SQLException ex) {
@@ -142,31 +154,37 @@ public class daoAsiento {
     }
 
 //    public List<Persona> query(Persona vendedor) { // Si se utiliza un ArrayList
-    public clsAsiento query(clsAsiento asiento) {    
+    public clsPeliculas query(clsPeliculas cine) {    
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        List<clsAsiento> asientos = new ArrayList<clsAsiento>();
+        List<clsPeliculas> cines = new ArrayList<clsPeliculas>();
         int rows = 0;
 
         try {
             conn = clsConexion.getConnection();
             System.out.println("Ejecutando query:" + SQL_QUERY);
             stmt = conn.prepareStatement(SQL_QUERY);
-            stmt.setInt(1, asiento.getiId_asiento());
+            stmt.setInt(1, cine.getiId_pelicula());
             rs = stmt.executeQuery();
             while (rs.next()) {
-                int iId_asiento = rs.getInt("id_asiento");
-                int iId_sala = rs.getInt("id_sala");
-                int iFila = rs.getInt("fila");
-                int iColumna = rs.getInt("columna");
+                int iId_pelicula = rs.getInt("id_pelicula");
+                String sNombre = rs.getString("nombre");
+                String sClasificacion = rs.getString("clasificacion");
+                String sGenero = rs.getString("genero");
+                String sSubtitulado = rs.getString("subtitulado");
+                String sIdioma = rs.getString("idioma");
+                double dPrecio = rs.getDouble("precio");
 
 
-                asiento = new clsAsiento();
-                asiento.setiId_asiento(iId_asiento);
-                asiento.setiId_sala(iId_sala);
-                asiento.setiFila(iFila);
-                asiento.setiColumna(iColumna);
+                cine = new clsPeliculas();
+                cine.setiId_pelicula(iId_pelicula);
+                cine.setsNombre(sNombre);
+                cine.setsClasificacion(sClasificacion);
+                cine.setsGenero(sGenero);
+                cine.setsSubtitulado(sSubtitulado);
+                cine.setsIdioma(sIdioma);
+                cine.setsPrecio(dPrecio);
                 
                 //vendedores.add(vendedor); // Si se utiliza un ArrayList
             }
@@ -180,7 +198,7 @@ public class daoAsiento {
         }
 
         //return vendedores;  // Si se utiliza un ArrayList
-        return asiento;
+        return cine;
     }
 
    

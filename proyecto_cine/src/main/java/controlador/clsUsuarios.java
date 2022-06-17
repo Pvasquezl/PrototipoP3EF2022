@@ -68,7 +68,7 @@ public class clsUsuarios {
 
  @Override
     public String toString() {
-        return "usuario{" + "Id_usuario=" + Iid_usuario + ", Nombre=" + sNombre + ", Correo=" + sCorreo +", Contraseña=" + sContraseña +", Tipo=" + sCargo + '}';
+        return "tbl_usuarios{" + "Id_usuario=" + Iid_usuario + ", Nombre=" + sNombre + ", Correo=" + sCorreo +", Contraseña=" + sContraseña +", Tipo=" + sCargo + '}';
     }
 
 }

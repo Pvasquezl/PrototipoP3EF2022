@@ -13,13 +13,13 @@ public class clsSalas {
     int iId_cine;
     String sDescripcion;
     String sFormato;
-    String iPuntos;
+    int iPuntos;
     double dPrecio_sala;
 
     public clsSalas() {
     }
 
-    public clsSalas(int iId_sala, int iId_cine, String sDescripcion, String sFormato, String iPuntos, double dPrecio_sala) {
+    public clsSalas(int iId_sala, int iId_cine, String sDescripcion, String sFormato, int iPuntos, double dPrecio_sala) {
         this.iId_sala = iId_sala;
         this.iId_cine = iId_cine;
         this.sDescripcion = sDescripcion;
@@ -60,11 +60,11 @@ public class clsSalas {
         this.sFormato = sFormato;
     }
 
-    public String getiPuntos() {
+    public int getiPuntos() {
         return iPuntos;
     }
 
-    public void setiPuntos(String iPuntos) {
+    public void setiPuntos(int iPuntos) {
         this.iPuntos = iPuntos;
     }
 

@@ -18,7 +18,7 @@ public class daoUsuarios {
 
     private static final String SQL_SELECT = "SELECT id_usuario, nombre, correo, contraseña, cargo FROM tbl_usuarios";
     private static final String SQL_INSERT = "INSERT INTO tbl_usuarios(nombre,correo,contraseña,cargo) VALUES(?, ?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE tbl_usuarios SET Nombre=?, Correo=?, Contraseña=?, AND cargo=? WHERE id_usuario = ?";
+    private static final String SQL_UPDATE = "UPDATE tbl_usuarios SET Nombre=?, correo=?, contraseña=?, AND cargo=? WHERE id_usuario = ?";
     private static final String SQL_DELETE = "DELETE FROM tbl_usuarios WHERE id_usuario=?";
     private static final String SQL_QUERY = "SELECT id_usuario, nombre, correo, contraseña, cargo FROM tbl_usuarios WHERE nombre = ?";
 
